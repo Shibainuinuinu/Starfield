@@ -4,7 +4,10 @@ void setup()
   size(1000, 1000);
   background(0);
   pac = new Pacman[250];
-  for (int i=0; i<pac.length; i++){
+  for (int i=0; i<3; i++){
+    pac[i] = new Ghost();
+  }
+  for (int i=3; i<pac.length; i++){
     pac[i] = new Pacman();
   }
 }
@@ -19,12 +22,11 @@ void draw()
 class Pacman
 {
   double myX, myY, mySpeed, myAngle; 
+  int myColor;
   Pacman(){
     myX = width/2;
     myY = height/2;
-    //myColor = color((int)(Math.random()*256),
-    //                (int)(Math.random()*256),
-    //                (int)(Math.random()*256));
+    myColor = color(255,255,0, (int)(Math.random()*100)+150);
     mySpeed = (Math.random()*10)+1;
     myAngle = (Math.random()*(2*Math.PI));
   }
@@ -33,7 +35,7 @@ class Pacman
     myY += (Math.sin(myAngle)*mySpeed);
   }
   void show(){
-    fill(255, 255, 0);
+    fill(myColor);
     noStroke();
     ellipse((float)myX,(float)myY, 30, 30);
     fill(0);
@@ -43,7 +45,31 @@ class Pacman
   
 
 
-//class MsPacMan extends Pacman //inherits from Particle
-//{
-//  //your code here
-//}
+class Ghost extends Pacman //inherits from Particle
+{
+  Ghost(){
+    myX = width/2;
+    myY = height/2;
+    myColor = color(255, 0, 0);
+    mySpeed = (Math.random()*2)+1;
+    myAngle = (Math.random()*(2*Math.PI));
+  }
+  void show(){
+    noStroke();
+    fill(myColor);
+    //body
+    arc((float)myX, (float)myY, 20, 20, PI, 2*PI);
+    rect((float)myX-10, (float)myY, 20, 10);
+    fill(0);
+    ellipse((float)myX-7, (float)myY+10, 5, 5);
+    ellipse((float)myX, (float)myY+10, 5, 5);
+    ellipse((float)myX+7, (float)myY+10, 5, 5);
+    //eyes
+    fill(255);
+    ellipse((float)myX-4, (float)myY-3, 5, 7);
+    ellipse((float)myX+4, (float)myY-3, 5, 7);
+    fill(0, 0, 255);
+    ellipse((float)myX-4, (float)myY-3, 2, 5);
+    ellipse((float)myX+4, (float)myY-3, 2, 5);
+  }
+}
